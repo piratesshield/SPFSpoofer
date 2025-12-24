@@ -201,6 +201,9 @@ Connection closed by foreign host.
 
 ### Message Flow Architecture
 
+<img width="2816" height="1536" alt="Gemini_Generated_Image_3emlwg3emlwg3eml" src="https://github.com/user-attachments/assets/0ea838f2-3fff-47c3-869b-e9ff7274eb27" />
+
+
 ```
 ┌─────────────────┐
 │   Telnet/SMTP   │
