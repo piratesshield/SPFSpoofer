@@ -213,7 +213,7 @@ Connection closed by foreign host.
          ▼
 ┌─────────────────┐
 │   Acceptor      │
-│  (0.0.0.0:2527) │
+│  (0.0.0.0:2525) │
 │  - Normalize    │
 │  - DKIM Sign    │
 │  - Save Message │
