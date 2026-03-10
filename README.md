@@ -130,7 +130,7 @@ SMTP server ready (no logs)
 Open a new terminal window:
 
 ```bash
-telnet 127.0.0.1 2527
+telnet 127.0.0.1 2525
 ```
 
 ### Step 5: Send Test Email
