@@ -66,7 +66,7 @@ def normalize_headers(raw_bytes: bytes) -> bytes:
     if not msg.get("Date"):
         msg["Date"] = formatdate(localtime=True)
     if not msg.get("Message-ID"):
-        msg["Message-ID"] = make_msgid(domain="myspamprojects.online")
+        msg["Message-ID"] = make_msgid(domain="<Attackers Email  Domain>")
     return msg.as_bytes()
 
 def generate_dummy_dkim_signature(message_bytes: bytes) -> str:
