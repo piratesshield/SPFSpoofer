@@ -88,31 +88,52 @@ sudo python3 -m pip install aiosmtpd dkimpy dnspython
 
 Open `spfspoofer.py` and modify the configuration section:
 
-```python
-# =========================
+```# =========================
 # Config
 # =========================
-HELLO_NAME = "mail.testlab.local"  # Change from "<Attacker's Domain>"
+HELLO_NAME = "<Attackers Email server URL>" #E.g. mail.spfattackers.com
 
-# Listeners - CHANGE THESE FOR NON-PRIVILEGED PORTS
-ACCEPTOR_HOST = "0.0.0.0"
-ACCEPTOR_PORT_25 = 2527      # Changed from 25
-ACCEPTOR_PORT_2525 = 2528    # Changed from 2525
+# Listeners
+ACCEPTOR_HOST = ""
+ACCEPTOR_PORT_25 = 25
+ACCEPTOR_PORT_2525 = 2525
 
 RELAY_HOST = "127.0.0.1"
 RELAY_PORT = 2526
 
 # Storage
-SAVE_DIR = "/tmp/smtp_demo"  # Change from "<log stroage path>"
+SAVE_DIR = "demo/smtp_demo/"
 
 # DKIM
-DKIM_PRIVKEY_PATH = "/tmp/dkim_key.pem"  # Change from "<DKIM private key path>"
-DKIM_SELECTOR = b"google"
-DKIM_DOMAIN = b"victim.example.com"  # Change from b"<Victim Dmain>"
+DKIM_PRIVKEY_PATH = "dkim_key.key" #create your own DKIM key using openSSL & update the public key in Attacker's DNS Server
+DKIM_SELECTOR = b"default"
+DKIM_DOMAIN = b"<Attackers Email  Domain>"
+HEADERS_TO_SIGN = [b"from", b"to", b"subject", b"date", b"message-id", b"mime-version", b"content-type"]
+
+# DNS/SMTP tuning
+MX_LOOKUP_TIMEOUT = 10
+SMTP_TIMEOUT = 60
+MAX_MX = 5
+RETRY_PER_MX = 1
+UPGRADE_STARTTLS_TO_MX = True
+
+# =========================
+# Utils
+# =========================
+def ensure_dirs():
+    Path(SAVE_DIR).mkdir(parents=True, exist_ok=True)
+
+def normalize_headers(raw_bytes: bytes) -> bytes:
+    msg = BytesParser(policy=default_policy).parsebytes(raw_bytes)
+    if not msg.get("Date"):
+        msg["Date"] = formatdate(localtime=True)
+    if not msg.get("Message-ID"):
+        msg["Message-ID"] = make_msgid(domain="<Attackers Email  Domain>")
+    return msg.as_bytes()
 ```
 
 **Configuration Placeholders to Replace:**
-- `<Attacker's Domain>` → Your testing domain (e.g., `mail.testlab.local`)
+- `<Attacker's EMail Domain>` → Your testing domain (e.g., `mail.testlab.local`)
 - `<Victim Dmain>` → Target domain for testing (e.g., `victim.example.com`)
 - `<DKIM private key path>` → Path to DKIM key (e.g., `/tmp/dkim_key.pem`)
 - `<log stroage path>` → Log directory (e.g., `/tmp/smtp_demo`)
