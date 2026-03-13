@@ -156,15 +156,6 @@ Open a new terminal window:
 ```bash
 telnet 127.0.0.1 25
 ```
-
-### Step 5: Send Test Email
-## 📝 Automated Testing Script
-**Run**:
-```bash
-chmod +x test_spfspoofer.sh
-./test_spfspoofer.sh
-```
-
 Execute these SMTP commands in order:
 
 ```
@@ -192,6 +183,12 @@ Testing DKIM signing and SPF validation.
 QUIT
 ```
 **OR USE THE BELOW SHELL SCRIPT HELP TO BYPASS THE EMAIL SECURITY CHECK**
+## 📝 Automated Testing Script
+**Run**:
+```bash
+chmod +x test_spfspoofer.sh
+./test_spfspoofer.sh
+```
 ``` #!/bin/bash
 
 echo "Testing SMTP with comprehensive RFC 5322 headers on port 25..."
