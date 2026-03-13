@@ -16,8 +16,8 @@
 
 SPFSpoofer is a specialized SMTP server designed for cybersecurity professionals, penetration testers, and security researchers to demonstrate email spoofing vulnerabilities and test SPF/DKIM/DMARC validation mechanisms in controlled lab environments.
 
-<span style="color:red"><b>⚠️NOTE : Change the <Attacker's Doamin> with your own domain in the v2.0 script . Also you need to create the DKIM , DMARC and SPF records in your own DNS server to avoid email delivery fail. Generate DKIM private and Public key using the OpenSSL
-</b>MX record of attacker's email server should be created with right and high reputated IP Addresses (make sure you are running the script from a cloud server)</b></span>
+<span style="color:red"><b>⚠️NOTE : <br>Change the <Attacker's Doamin> with your own domain in the v2.0 script .<br>You need to create the DKIM , DMARC and SPF records in your own DNS server to avoid email delivery fail. <br>Generate DKIM private and Public key using the OpenSSL
+<br>MX record of attacker's email server should be created with right and high reputated IP Addresses (make sure you are running the script from a cloud server)</b></span>
 
 ### Key Features
 
